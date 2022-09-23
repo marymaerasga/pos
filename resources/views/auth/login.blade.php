@@ -4,6 +4,7 @@
     <div class="row justify-content-center mb-4">
         <img src="{{ asset('assets/images/logo.png') }}" class="w-25" />
     </div>
+    
     <div class="login-box">
 <h4 class="login-box-msg text-center mb-5">LJ POS SYSTEM</h4>
 <form action="{{ route('login') }}" method="post">
@@ -64,7 +65,7 @@
         </div>
     </div>
         <!-- /.col -->
-      
+<!-- /.col -->
             <button type="submit" class="btn w-100 btn-block text-white rounded" style="background-color: #413f3d">Login</button>
         
         <!-- /.col -->
