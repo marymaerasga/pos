@@ -8,7 +8,7 @@
         <div class="card-body" style="background-color: #F2F1EF; height: 500px;">
               <div class="my-2">
                   <form wire:submit.prevent="InsertoCart">
-                    <input type="text" name="" wire:model="product_code" id="" class="form-control" placeholder="Enter Product Code / Name">
+                    <input type="text" name="" wire:model="product_code" id="" class="form-control" placeholder="Enter Product Code">
                   </form>
               </div>
               {{-- Messages --}}
@@ -35,7 +35,7 @@
                     @foreach ($productIncart as $key => $cart)
                     <td class="no">{{ $key + 1 }}</td>
                     <td width= "30%">
-                        <input type="text" value ="{{ $cart->product->product_name }}"
+                        <input type="text" value ="{{ $cart->product->product_name }}" readonly
                         name="product_name[]" id="product_name" class="form-control product_name">
                     </td>
                     <td width="15%">
@@ -43,7 +43,7 @@
                             <div class="col-md-4">
                                 <button wire:click.prevent="AddQty({{ $cart->id }})" class="btn btn-sm btn-success"> +</span> </button>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <label for=""> {{ $cart->product_qty }}</label>
                             </div>
                             <div class="col-md-4">
@@ -54,13 +54,13 @@
                         value ="" class="form-control quantity">--}}
                     </td>
                     <td>
-                     <input type="number" name="price[]" id="price" value ="{{ $cart->product->price }}" class="form-control price">
+                     <input type="number" readonly  name="price[]" id="price" value ="{{ $cart->product->price }}" class="form-control price">
                  </td>
                  <td>
-                     <input type="number" name="discount[]" id="discount" value ="{{ $cart->product->discount }}" class="form-control discount">
+                     <input type="number" readonly name="discount[]" id="discount" value ="{{ $cart->product->discount }}" class="form-control discount">
                  </td>
                  <td>
-                     <input type="number" name="total_amount[]" id="total_amount" value ="{{ $cart->product_qty * $cart->product->price }}" class="form-control total_amount">
+                     <input type="number" readonly name="total_amount[]" id="total_amount" value ="{{ $cart->product_qty * $cart->product->price }}" class="form-control total_amount">
                  </td>
                  <td>
                      <a href="#" class="btn btn-sm btn-danger rounded-circle"><i class="bi bi-x"  wire:click="removeProduct({{ $cart->id }})"></i></a>
@@ -100,13 +100,7 @@
                     <input type="hidden" name="discount[]" id="discount" class="form-control discount">
                     <input type="hidden" name="total_amount[]" value ="{{ $cart->product_qty * $cart->product->price }}" class="form-control total_amount">
                  @endforeach
-                 <div class="row my-3">
-                    <div class="btn-group">
-                       <button type="button" onclick="PrintReceiptContent('print')" class="btn btn-dark btn-sm"><i class="bi bi-printer"></i> Print</button>
-                       <button type="button" onclick="PrintReceiptContent('')" class="btn btn-primary btn-sm"><i class="bi bi-clock-history"></i> History</button>
-                       <button type="button" onclick="PrintReceiptContent('')" class="btn btn-danger btn-sm"><i class="bi bi-card-checklist"></i> Reports</button>
-                   </div>
-                   </div>
+                
              <div class="card-body">
                  <div class="panel">
                      <div class="row">
@@ -146,7 +140,7 @@
                          <div class="row mt-2">
                              <td>
                                  Payment
-                                 <input type="number" wire:model='pay_money' name="paid_amount" id="paid_amount" class="form-control">
+                                 <input type="text" wire:model='pay_money' name="paid_amount" id="paid_amount" class="form-control">
                              </td>
                          </div>
                          <div class="row mt-2">
@@ -158,9 +152,17 @@
                        
                          <div class="row mt-4 b-2">
                          <td>
-                              <button class="btn-lg" style="text-white background-color: #413f3d">Save</button>
+                            <div class="d-grid gap-2 mx-auto">
+                                <button type="btn-md" onclick="PrintReceiptContent('print')" class="btn btn-dark btn-sm"><i class="bi bi-printer"></i> Save and Print</button>
+                              </div>
                          </td>
                          </div>
+                         <div class="row my-3">
+                            <div class="btn-group">
+                               <button type="button" onclick="PrintReceiptContent('')" class="btn btn-primary btn-sm"><i class="bi bi-clock-history"></i> History</button>
+                               <button type="button" onclick="PrintReceiptContent('')" class="btn btn-danger btn-sm"><i class="bi bi-card-checklist"></i> Reports</button>
+                           </div>
+                           </div>
                      </div>
                     </form>
                  </div>

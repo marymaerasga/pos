@@ -54,13 +54,14 @@ class OrderController extends Controller
     {
         //return $request->all();
         DB::transaction(function() use ($request){
-            //Ordel Model
+            //Order Model
             $orders = new Order;
             $orders->name = $request->customer_name;
             $orders->phone_number = $request->customer_phone;
+            $orders->address = $request->customer_address;
             $orders->save();
             $order_id = $orders->id;
-            // Odder Details
+            // Order Details
             for ($product_id = 0; $product_id < count($request->product_id); $product_id++){
                 $order_details = new Order_Detail;
                 $order_details->order_id = $order_id;
@@ -71,7 +72,6 @@ class OrderController extends Controller
                 $order_details->discount = $request->discount[$product_id];
                 $order_details->save();
             }
-           
         //'order_id','product_id','quantity','unit_price','amount','discount',
             //Transactiion
             $transactions = new Transaction();
@@ -98,8 +98,8 @@ class OrderController extends Controller
                 'customer_orders' =>  $orderedBy,
             ]);
         });
-        Session::flash('statuscode','error');
-        return back()->with('message',"Product orders Failed to inserted! Check your input!");
+        Session::flash('statuscode','success');
+        return back()->with('message',"Order Successfully Added!");
     }
 
     /**
@@ -131,9 +131,16 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)
+    public function update(Request $request, Order $orders, $id)
     {
-        //
+        $orders = Order::find($id);
+        $orders->name = $request->name;
+        $orders->phone_number = $request->phone_number;
+        $orders->address = $request->address;
+        $orders->update();
+
+        Session::flash('statuscode','success');
+        return redirect()->back()->with('message','Customer Details Updated Successfully!');
     }
 
     /**
@@ -142,8 +149,15 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy(Order $orders, $id)
     {
-        //
+        $orders = Order::find($id);
+        if(!$orders){
+            Session::flash('statuscode','warning');
+            return back()->with('message', 'Customer not found!');
+        }
+        $orders->delete();
+        Session::flash('statuscode','error');
+        return back()->with('message','Customer Deleted Successfully!');
     }
 }

@@ -31,8 +31,6 @@
                   <th>Size</th>
                   <th>Price</th>
                   <th>Quantity</th>
-                  <th>Installment</th>
-                  <th>In 3 Gives</th>
                   <th>Alert Stock</th>
                   <th>Action</th>
                  </tr>
@@ -133,16 +131,6 @@
                                     <label for="">Description</label>
                                     <textarea name="description" id="" value="{{ $product->description }}" cols="30" rows="2"class="form-control"></textarea>
                                   </div>
-                                  <div class="row">
-                                  <div class="form-group col-md-6">
-                                    <label for="">Installment</label>
-                                    <input type="number" name="installment" id="" value="{{ $product->installment }}" class="form-control">
-                                  </div>
-                                  <div class="form-group col-md-6">
-                                    <label for="">In 3 Gives</label>
-                                    <input type="number" name="gives" id="" value="{{ $product->gives }}" class="form-control">
-                                  </div>
-                                </div>
                                 <div class="row">
                                   <div class="form-group col-md-6">
                                     <label for="">Quantity</label>
@@ -210,14 +198,7 @@
                 <label for="">Sell Price</label>
                 <input type="number" name="price" id="" class="form-control">
               </div>
-              <div class="form-group col-md-6">
-                <label for="">Installment</label>
-                <input type="number" name="installment" id="" class="form-control">
-              </div>
-              <div class="form-group col-md-6">
-                <label for="">In 3 Gives</label>
-                <input type="number" name="gives" id="" class="form-control">
-              </div>
+              
               <div class="form-group col-md-6">
                 <label for="">Quantity</label>
                 <input type="number" name="quantity" id="" class="form-control">

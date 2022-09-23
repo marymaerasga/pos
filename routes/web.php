@@ -14,19 +14,24 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+
 Route::get('/', function () {
-    return view('auth.login');
+    return view('auth.register');
 });
-
 Auth::routes();
+//Admin
+route::prefix('admin')->middleware(['auth','isAdmin'])->group(function(){
+    Route::resource('/orders', 'OrderController');
+    Route::resource('/products', 'ProductController');
+    Route::resource('/suppliers', 'SupplierController');
+    Route::resource('/categories', 'CategoryController');
+    Route::resource('/users', 'UserController');
+    Route::resource('/transactions', 'TransactionController');
+    Route::resource('/companies', 'CompanyController');
+    Route::resource('/customers', 'CustomerController');
+});
+Route::get('/redirects', [App\Http\Controllers\HomeController::class, 'index']);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+route::middleware(['auth:sanctum', 'verified'])->get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('/orders', 'OrderController');
-Route::resource('/products', 'ProductController');
-Route::resource('/suppliers', 'SupplierController');
-Route::resource('/categories', 'CategoryController');
-Route::resource('/users', 'UserController');
-Route::resource('/transactions', 'TransactionController');
-Route::resource('/companies', 'CompanyController');
 

@@ -7,42 +7,49 @@
     <div class="login-box">
 <h4 class="login-box-msg text-center mb-5">LJ POS SYSTEM</h4>
 <form action="{{ route('login') }}" method="post">
+
+    @if(Session::get('fail'))
+    <div class="alert alert-danger">
+         {{ Session::get('fail') }}
+    </div>
+    @endif
+    
     @csrf
     <div class="mb-4">
     <div class="form-group">
         <div class="input-group">
-            <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
-                placeholder="Email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+            <input type="text" name="email" class="form-control"
+                placeholder="Enter email address" value="{{ old('email') }}">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="bi bi-envelope"></span>
                 </div>
             </div>
         </div>
-        @error('email')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="text-danger">
+            <strong>@error('email')
+                {{ $message }}
+            @enderror</strong>
         </span>
-        @enderror
     </div>
 </div>
 <div class="mb-4">
     <div class="form-group">
 
         <div class="input-group">
-            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password"
-                name="password" required autocomplete="current-password">
+            <input type="password" class="form-control" placeholder="Enter password"
+                name="password">
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="bi bi-key"></span>
                 </div>
             </div>
         </div>
-        @error('password')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $message }}</strong>
+        <span class="text-danger">
+            <strong>@error('password')
+                {{ $message }}
+            @enderror</strong>
         </span>
-        @enderror
     </div>
  
     <div class="row">
@@ -66,10 +73,6 @@
 </form>
 
 <p class="mb-2">
-    <a class="text-white float-end mt-3" href="{{ route('password.request') }}">Forgotpassword?</a>
-</p>
-
-   </div>
-  </div>
+    <a class=" 
 
 @endsection

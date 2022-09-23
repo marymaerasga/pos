@@ -7,9 +7,10 @@ use App\Models\Product;
 use App\Models\Cart;
 class Order extends Component
 {
-    public $orders, $products = [], $product_code, $message = '', $productIncart;
-
-    public $pay_money, $balance;
+    public $orders, $products = [];
+    public $product_code, $message = '', $productIncart;
+    public $addQty;
+    public $pay_money= '', $balance = '';
 
     public function mount(){
         $this->products = Product::all();
@@ -18,13 +19,12 @@ class Order extends Component
     public function InsertoCart(){
         $countProduct  = Product::where('id', $this->product_code)->first();
         if(!$countProduct){
-            
             return session()->flash('error','Product Not Found!');
         }
 
         $countCartProduct = Cart::where('product_id', $this->product_code)->count();
         if($countCartProduct > 0){
-            return session()->flash('info','Product ' . $countProduct->product_name . ' already exist in the Cart add quantity');
+            return session()->flash('info','Product ' . $countProduct->product_name . ' already exist in Cart add quantity');
         }
 
         $add_to_cart = new Cart;
@@ -52,7 +52,7 @@ class Order extends Component
     public function DecQty($cardId){
         $carts =  Cart::find($cardId);
         if($carts->product_qty == 1){
-            return session()->flash('info', 'Product ' .$carts->product->product_name. ' quantity can not be less than 1 add quantity or remove product in cart.');
+            return session()->flash('info', 'Product ' .$carts->product->product_name. ' quantity can not be less than 1, add quantity or remove product in cart.');
         }
         $carts->decrement('product_qty', 1);
         $updatePrice = $carts->product_qty * $carts->product->price;
@@ -61,13 +61,13 @@ class Order extends Component
     }
 
 
-    public function  removeProduct($cardId)
+    public function removeProduct($cardId)
     {
         $deleteCart = Cart::find($cardId);
         $deleteCart->delete();
 
-        $this->message="Product Removed from the Cart";
         $this->productIncart = $this->productIncart->except($cardId);
+        return session()->flash('error',"Product Removed from the Cart");
 
     }
     public function render()

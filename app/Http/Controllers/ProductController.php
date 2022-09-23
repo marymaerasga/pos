@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Picqer;
 
 
 class ProductController extends Controller
@@ -38,17 +39,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // product code section
+        $product_code = rand(106890122, 100000000);
+
+        $redColor = [255, 0, 0];
+            $generator = new Picqer\Barcode\BarcodeGeneratorHTML();
+            $barcodes = $generator->getBarcode($product_code ,
+            $generator::TYPE_STANDARD_2_5,2, 60);
+
         $products = new Product;
         $products->id = $request->id;
         $products->product_name = $request->product_name;
         $products->description = $request->description;
         $products->size = $request->size;
+        $products->product_code = $barcodes;
+        $products->barcode = $barcodes;
         $products->price = $request->price;
         $products->quantity = $request->quantity;
         $products->category = $request->category;
         $products->alert_stock = $request->alert_stock;
-        $products->installment = $request->installment;
-        $products->gives = $request->gives;
         if($request->hasfile('image')){
             $file = $request->file('image');
             $extension = $file->getClientOriginalExtension();
@@ -62,7 +71,7 @@ class ProductController extends Controller
             return redirect()->back()->with('message','Product Successfully Added!');
         }
         Session::flash('statuscode','error');
-        return redirect()->back()->with('message','Product fail to add!');
+        return redirect()->back()->with('message','Product failed to add!');
     }
 
     /**

@@ -39,7 +39,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="nav-link" href="#">
+                            <a class="nav-link {{ Request::is('customers') ? 'active':'' }}" href="{{ route('customers.index') }}">
                                 <div class="sb-nav-link-icon me-2"><i class="bi bi-people"></i></div>
                                 <span>Customers</span>
                             </a>

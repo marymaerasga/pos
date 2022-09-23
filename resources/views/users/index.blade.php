@@ -237,8 +237,9 @@
               <div class="form-group">
                 <label for="">Role</label>
                 <select name="role_as" id="" class="form-control form-select">
-                  <option value="1">Admin</option>
                   <option value="0">Cashier</option>
+                  <option value="1">Admin</option>
+                  <option value="2">Staff</option>
                 </select>
               </div>
               <div class="form-group mt-3">

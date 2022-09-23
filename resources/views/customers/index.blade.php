@@ -15,12 +15,11 @@
          <div class="card">
            <div class="card-header">
             <div class="d-grid gap-2 d-md-block float-end">
-              <a href="" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-user"><i class="bi bi-person-plus"></i> Add User</a>
               <a href="" class="btn btn-primary "><i class="bi bi-printer"></i> Print</a>
             </div>
             </div>
            <div class="card-body">
-             <table class="table table-bordered">
+            <table id="datatable" class="table table-bordered">
                <thead>
                  <tr>
                   <th>Name</th>
@@ -30,73 +29,43 @@
                  </tr>
                </thead>
                <tbody>
-               
+                @foreach ($orders as $key => $order)
                  <tr>
-                   <td></td>
-                   <td></td>
-                   <td></td>
+                   <td>{{ $order->name}}</td>
+                   <td>{{ $order->phone_number }}</td>
+                   <td>{{ $order->address }}</td>
                    <td>
-                    <a name="edit" href="" data-bs-toggle="modal" data-bs-target="#edit-user" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
-                    <button type="button" name="delete" title="Delete" data-id="" class="delete btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-user" title="Delete"><i class="bi bi-trash"></i></button>
+                    <a name="edit" href="" data-bs-toggle="modal" data-bs-target="#edit-customer{{ $order->id }}" class="btn btn-primary"><i class="bi bi-pencil-square"></i></a>
+                    <button type="button" name="delete" title="Delete" data-id="" class="delete btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-customer{{ $order->id }}" title="Delete"><i class="bi bi-trash"></i></button>
                    </td>
                  </tr>
-                 <!--Edit user modal 
-                  <div class="modal right fade" id="edit-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
+
+                   <!--Edit customer modal -->
+                   <div class="modal right fade" id="edit-customer{{ $order->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h4 class="modal-title" id="staticBackdropLabel">Edit User</h4>
+                          <h4 class="modal-title" id="staticBackdropLabel">Edit Customer</h4>
                         </div>
                         <div class="modal-body">
                           <div class="row">
-                              <div class="col-md-4 mt-4">
-                                <form class="row g-3" action="{{ route('users.update', $user->id)}}" method="post" enctype="multipart/form-data">
+                              <div class="col-md-4">
+                                <form class="row g-3" action="{{ route('orders.update', $order->id)}}" method="post" enctype="multipart/form-data">
                                   @csrf
                                   @method('put')
-                                <div class="text-center" style="border:1px dashed black; width: 240px; height: 240px;">
-                                  <img src="{{ asset('uploads/images/'.$user->image) }}" width='240px' height='240px' alt="Image" class="img img-responsive">
-                                </div>
-                                <div class="form-group mt-3 mb-3">
-                                  <input type="file" name="image" name="image" value="{{ $user->image }}" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
-                                </div>
                               </div>
-                              <div class="col-md-8 ">
                                   <div class="form-group">
                                     <label for="">Name</label>
-                                    <input type="text" name="name" id="" value = "{{ $user->name }}" class="form-control">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="email" name="email" id="" value = "{{ $user->email }}" class="form-control">
+                                    <input type="text" name="name" id="" value = "{{ $order->name }}" class="form-control">
                                   </div>
                                   <div class="form-group">
                                     <label for="">Phone</label>
-                                    <input type="text" name="phone_number" id="" value = "{{ $user->phone_number }}"class="form-control">
+                                    <input type="text" name="phone_number" id="" value = "{{ $order->phone_number }}"class="form-control">
                                   </div>
-                                  <div class="form-group">
+                                  <div class="form-group mb-2">
                                     <label for="">Address</label>
-                                    <input type="text" name="address" id="" value = "{{ $user->address }}" class="form-control">
+                                    <input type="text" name="address" id="" value = "{{ $order->address }}" class="form-control">
                                   </div>
-                                  <div class="form-group ">
-                                    <label for="">Password</label>
-                                    <input type="password" name="password" id="" value = "{{ $user->password }}" class="form-control">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="">Confirm Password</label>
-                                    <input type="password" name="confirm-password" value = "{{ $user->password }}" id="" class="form-control">
-                                  </div>
-                                  <div class="form-group mb-3">
-                                    <label for="">Role</label>
-                                    <select name="role_as" id="" class="form-control form-select">
-                                      <option value="1" @if ($user->role_as == 1)
-                                        selected
-                                      @endif>Admin</option>
-                                      <option value="0" @if ($user->role_as == 0)
-                                        selected
-                                      @endif>Cashier</option>
-                                    </select>
-                                  </div>
-                              </div>
                               <div class="modal-footer">
                                 <button type="submit" name="update" class="btn btn-secondary">Update</button>
                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
@@ -106,86 +75,38 @@
                           </div>
                       </div>
                     </div>
-                  </div>-->
+                  </div>
 
-                   <!--Delete user modal 
-                   <div class="modal right fade" id="delete-user" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-sm">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h4 class="modal-title" id="staticBackdropLabel">Delete User</h4>
+                      <!--Delete user modal -->
+                      <div class="modal right fade" id="delete-customer{{ $order->id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title" id="staticBackdropLabel">Delete Customer</h4>
+                            </div>
+                            <div class="modal-body">
+                                    <form class="row g-3" action="{{ route('orders.destroy', $order->id)}}" method="post">
+                                      @csrf
+                                      @method('delete')
+                                      <p>Are you sure you want to delete {{ $order->name }} ?</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="submit" name="delete" class="btn btn-secondary">Delete</button>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                                  </div>
+                                </form>
+                                  </div>
+                              </div>
+                          </div>
                         </div>
-                        <div class="modal-body">
-                                <form class="row g-3" action="{{ route('users.destroy', $user->id)}}" method="post">
-                                  @csrf
-                                  @method('delete')
-                                  <p>Are you sure you want to delete {{ $user->name }} ?</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="submit" name="delete" class="btn btn-secondary">Delete</button>
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                            </form>
-                              </div>
-                          </div>
                       </div>
-                    </div>
-                  </div>-->
-
-                  <!--View user modal 
-                  <div class="modal right fade" id="view-user data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                      <div class="modal-content">
-                        <div class="modal-header float-center">
-                          <h4 class="modal-title" id="staticBackdropLabel">View User</h4>
-                          </div>
-                        <div class="modal-body">
-                          <div class="row">
-                              <div class="col-md-4 mt-2 mb-3">
-                                <div class="text-center" style="border:1px dashed black; width: 240px;height: 240px;">
-                                  <img src="{{ asset('uploads/images/'.$user->image) }}" width='240px' height='240px' alt="Image" class="img img-responsive">
-                                </div>
-                              </div>
-                              <div class="col-md-8 mt-3">
-                                <form class="row g-3" action="{{ route('users.update', $user->id)}}" method="post">
-                                  @csrf
-                                  @method('put')
-                                  <div class="form-group">
-                                    <label for="">Name</label>
-                                    <input type="text" name="name" id="" value = "{{ $user->name }}" class="form-control">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="">Email</label>
-                                    <input type="email" name="email" id="" value = "{{ $user->email }}" class="form-control">
-                                  </div>
-                                  <div class="form-group">
-                                    <label for="">Phone</label>
-                                    <input type="text" name="phone_number" id="" value = "{{ $user->phone_number }}"class="form-control">
-                                  </div>
-                                  <div class="form-group mb-3">
-                                    <label for="">Address</label>
-                                    <input type="text" name="address" id="" value = "{{ $user->address }}" class="form-control">
-                                  </div>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                            </form>
-                              </div>
-                          </div>
-                      </div>
-                    </div>
-                  </div>-->
-
+                 @endforeach
                </tbody>
              </table>
-
            </div>
          </div>
        </div>
     </div>
 </main>
-
- 
 @endsection
 
